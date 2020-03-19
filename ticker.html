@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+    <title>Get Ticker Price</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <!-- API Token: pk_0ccf442942da4ec98c6591dc520a3b84  -->
+</head>
+<style>
+
+    body {
+        padding-top:300px;
+        background: url(back.jpeg) no-repeat center center fixed;
+        background-size: cover;
+    }
+    body #output {
+        color:#05c46b;
+    }
+    .box {
+        text-align: center;
+        font-family: "Poppins", Arial, Helvetica, sans-serif;
+        color: white;
+        border-radius: 20px;
+        padding-top: 30px;
+        width:700px;
+        height:250px;
+        position: fixed;
+        background-color: #2C3A47;
+        top: 50%;
+        left: 50%;
+        margin-top: -175px;
+        margin-left: -350px;
+    }
+
+</style>
+<body>
+    <div class="box">
+        <h3>PLEASE ENTER TWO TICKERS TO FIND & COMPARE THEIR PRICES.</h3>
+        <label for="stock1">First Ticker: </label>
+        <input type="text" id="stock1" name="stock1">
+        <label for="stock2">Second Ticker: </label>
+        <input type="text" id="stock2" name="stock2">
+        <br><br>
+        <button onclick="getData()">SEARCH</button>
+        <br><br>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        async function getData() {
+            const outputDiv = document.getElementById("output");
+            stock1 = document.getElementById("stock1").value;
+            stock2 = document.getElementById("stock2").value;
+            stock1_content = await fetch(`https://sandbox.iexapis.com/stable/stock/${stock1.toUpperCase()}/quote?token=Tpk_f111c6fc71bd402d96729d55ce7f9b31`);
+            stock1_data = await stock1_content.json();
+            stock2_content = await fetch(`https://sandbox.iexapis.com/stable/stock/${stock2.toUpperCase()}/quote?token=Tpk_f111c6fc71bd402d96729d55ce7f9b31`);
+            stock2_data = await stock2_content.json();
+            let response = `<p>The current price for ${stock1.toUpperCase()} is: <span style="color:white;">${stock1_data.latestPrice}</span> and the current price for ${stock2.toUpperCase()} is: <span style="color:white;">${stock2_data.latestPrice}</span></p>`;
+            outputDiv.innerHTML = response;
+        }
+
+    </script>
+
+</body>
